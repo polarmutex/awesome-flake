@@ -1,4 +1,4 @@
-require("config.keys")
-require("config.rules")
-require("config.tags")
-require("config.other")
+return {
+    apps = require('config.apps'),
+    vars = require('config.vars'),
+}

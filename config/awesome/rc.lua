@@ -1,47 +1,18 @@
---[[
-    A mtertial-you inspired awesomewm setup!
-    source: https://github.com/saimoomedits/dotfiles
-]]
+-- awesome_mode: api-level=4:screen=on
 
-pcall(require, "luarocks.loader")
+-- load luarocks if installed
+pcall(require, 'luarocks.loader')
 
--- misc/vars
--- ~~~~~~~~~
+-- load theme
+local beautiful = require('beautiful')
+local gears = require('gears')
+beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
--- home variable
-home_var = os.getenv("HOME")
+-- load key and mouse bindings
+require('bindings')
 
--- user preferences
-user_likes = {
+-- load rules
+require('rules')
 
-    -- aplications
-    term = "st",
-    editor = "st -e " .. "nvim",
-    code = "vscode",
-    web = "firefox",
-    --music = "alacritty --class 'music' --config-file " .. home_var .. "/.config/alacritty/ncmpcpp.yml -e ncmpcpp ",
-    files = "thunar",
-
-    -- weather info
-    weather_key = "",
-    city_id = "",
-    weather_unit = "metric",
-}
-
--- general
--- ~~~~~~~
-
--- theme
-require("theme")
-
--- configs
-require("config")
-
--- startup programs
---require("misc")
-
--- signals
-require("signal")
-
--- ui elements
-require("layout")
+-- load signals
+require('signals')
