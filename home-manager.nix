@@ -50,7 +50,7 @@ in
   config = mkIf cfg.enable {
 
     home.packages = with pkgs; [
-      awesome-polar
+      awesome-git
     ];
 
     # old way

@@ -13,12 +13,12 @@
     let
       test = "rstin";
       overlay = final: prev: {
-        #awesome-config = self.packages.${prev.system}.awesome-config;
-        awesome-git = self.packages.${prev.system}.awesome-git;
-        #lain = self.packages.${prev.system}.lain;
+        inherit (self.packages.${final.system})
+          awesome-git;
       };
     in
     {
+      inherit overlay;
       home-managerModule = { config, lib, pkgs, ... }:
         import ./home-manager.nix {
           inherit config lib pkgs;
