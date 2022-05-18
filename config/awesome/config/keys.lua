@@ -7,7 +7,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 --local lmachi        = require("mods.layout-machi")
 local bling = require("mods.bling")
-local misc = require("misc")
+--local misc = require("misc")
 
 -- vars/misc
 -- ~~~~~~~~~
@@ -36,57 +36,57 @@ awful.keyboard.append_global_keybindings({
         awful.spawn(user_likes.term)
     end, { description = "open terminal", group = "launcher" }),
 
-    awful.key({ modkey }, "s", function()
-        awful.spawn(user_likes.music)
-    end, { description = "launch music client", group = "launcher" }),
+    --awful.key({ modkey }, "s", function()
+    --    awful.spawn(user_likes.music)
+    --end, { description = "launch music client", group = "launcher" }),
 
-    awful.key({ modkey }, "b", function()
-        awful.spawn.with_shell(user_likes.web)
-    end, { description = "open web browser", group = "launcher" }),
+    --awful.key({ modkey }, "b", function()
+    --    awful.spawn.with_shell(user_likes.web)
+    --end, { description = "open web browser", group = "launcher" }),
 
-    awful.key({ modkey }, "e", function()
-        awful.spawn(misc.rofiCommand)
-    end, { description = "open rofi", group = "launcher" }),
+    --awful.key({ modkey }, "e", function()
+    --    awful.spawn(misc.rofiCommand)
+    --end, { description = "open rofi", group = "launcher" }),
 
-    awful.key({ modkey }, "r", function()
-        awful.spawn(home_var .. "/.scripts/awesome/picker", false)
-    end, { description = "exec color picker", group = "launcher" }),
+    --awful.key({ modkey }, "r", function()
+    --    awful.spawn(home_var .. "/.scripts/awesome/picker", false)
+    --end, { description = "exec color picker", group = "launcher" }),
 
-    awful.key({ modkey }, "a", function()
-        dash_toggle()
-    end, { description = "toggle dashboard", group = "launcher" }),
+    --awful.key({ modkey }, "a", function()
+    --    dash_toggle()
+    --end, { description = "toggle dashboard", group = "launcher" }),
 })
 
 -- control/media
 awful.keyboard.append_global_keybindings({
 
-    awful.key({}, "XF86MonBrightnessUp", function()
-        awful.spawn("brightnessctl set 5%+ -q", false)
-    end, { description = "increase brightness", group = "control" }),
+    --awful.key({}, "XF86MonBrightnessUp", function()
+    --    awful.spawn("brightnessctl set 5%+ -q", false)
+    --end, { description = "increase brightness", group = "control" }),
 
-    awful.key({}, "XF86MonBrightnessDown", function()
-        awful.spawn("brightnessctl set 5%- -q", false)
-    end, { description = "decrease brightness", group = "control" }),
+    --awful.key({}, "XF86MonBrightnessDown", function()
+    --    awful.spawn("brightnessctl set 5%- -q", false)
+    --end, { description = "decrease brightness", group = "control" }),
 
-    awful.key({}, "Print", function()
-        awful.util.spawn(home_var .. "/.scripts/awesome/ss area", false)
-    end, { description = "screenshot", group = "control" }),
+    --awful.key({}, "Print", function()
+    --    awful.util.spawn(home_var .. "/.scripts/awesome/ss area", false)
+    --end, { description = "screenshot", group = "control" }),
 
-    awful.key({}, "XF86AudioRaiseVolume", function()
-        awful.spawn("amixer -D pulse set Master 5%+", false)
-    end, { description = "increase volume", group = "control" }),
+    --awful.key({}, "XF86AudioRaiseVolume", function()
+    --    awful.spawn("amixer -D pulse set Master 5%+", false)
+    --end, { description = "increase volume", group = "control" }),
 
-    awful.key({}, "XF86AudioLowerVolume", function()
-        awful.spawn("amixer -D pulse set Master 5%-", false)
-    end, { description = "decrease volume", group = "control" }),
+    --awful.key({}, "XF86AudioLowerVolume", function()
+    --    awful.spawn("amixer -D pulse set Master 5%-", false)
+    --end, { description = "decrease volume", group = "control" }),
 
-    awful.key({}, "XF86AudioMute", function()
-        awful.spawn("amixer -D pulse set Master 1+ toggle", false)
-    end, { description = "mute volume", group = "control" }),
+    --awful.key({}, "XF86AudioMute", function()
+    --    awful.spawn("amixer -D pulse set Master 1+ toggle", false)
+    --end, { description = "mute volume", group = "control" }),
 
-    awful.key({ modkey }, "F2", function()
-        misc.musicMenu()
-    end, { description = "screenshot", group = "control" }),
+    --awful.key({ modkey }, "F2", function()
+    --    misc.musicMenu()
+    --end, { description = "screenshot", group = "control" }),
 })
 
 -- awesome yeah!
@@ -100,8 +100,8 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({ modkey, shift }, "e", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
-    --awful.key({ modkey }, "v", function () require("mods.exit-screen") awesome.emit_signal('module::exit_screen:show') end,
-    --          {description = "show exit screen", group = "modules"}),
+    awful.key({ modkey }, "v", function () require("mods.exit-screen") awesome.emit_signal('module::exit_screen:show') end,
+              {description = "show exit screen", group = "modules"}),
 })
 
 -- Tags related keybindings

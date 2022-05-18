@@ -41,7 +41,7 @@ require("config")
 --require("misc")
 
 -- signals
---require("signal")
+require("signal")
 
 -- ui elements
 require("layout")

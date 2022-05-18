@@ -6,7 +6,8 @@ local gears = require("gears")
 -- misc/vars
 -- ~~~~~~~~~
 --local directory = os.getenv("HOME") .. "/.config/awesome/images/M3/"
-local directory = gears.filesystem.get_configuration_dir() .. "/images/M3/"
+--local directory = gears.filesystem.get_configuration_dir() .. "images/M3/"
+local directory = os.getenv("HOME") .. "/repos/personal/awesome-flake/config/awesome/images/M3/"
 local ui_vars = require("theme.ui_vars")
 
 -- init

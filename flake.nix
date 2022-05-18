@@ -18,7 +18,12 @@
         #lain = self.packages.${prev.system}.lain;
       };
     in
-    { } //
+    {
+      home-managerModule = { config, lib, pkgs, ... }:
+        import ./home-manager.nix {
+          inherit config lib pkgs;
+        };
+    } //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -45,7 +50,7 @@
             pname = "awesome-configration";
             version = "1.0";
 
-            src = ./config;
+            src = ./config/awesome;
 
             dontBuild = true;
 
@@ -59,7 +64,7 @@
               set -eu -o pipefail
               export AWESOME_THEME=$out/theme.lua
               unset XDG_SEAT
-              Xephyr :5 -screen 1024x768 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c $out/rc.lua --search $out
+              Xephyr :5 -screen 1900x1068 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c $out/rc.lua --search $out
               EOL
               chmod +x $out/run-test
             '';
@@ -81,7 +86,7 @@
           };
         };
 
-        defaultPackage = packages.awesome-configuration;
+        defaultPackage = packages.awesome-git;
         defaultApp = apps.test-config;
 
       });

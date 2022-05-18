@@ -86,7 +86,8 @@ end)
 client.connect_signal("request::manage", function(c)
     -- set default window icon
     if not c.icon then
-        local i = gears.surface(gfs.get_configuration_dir() .. beautiful.images.layouts.tile)
+        --local i = gears.surface(gfs.get_configuration_dir() .. beautiful.images.layouts.tile)
+        local i = gears.surface(beautiful.images.layouts.tile)
         c.icon = i._native
     end
 

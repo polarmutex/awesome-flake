@@ -93,7 +93,7 @@ else
             # alacritty color
             sed -i '3s/.*/- ~\/.config\/alacritty\/colors-material.yml/g' ~/.config/alacritty/alacritty.yml
             sed -i '3s/.*/- ~\/.config\/alacritty\/colors-material.yml/g' ~/.config/alacritty/ncmpcpp.yml
-            
+
             # rofi color
             sed -i '17s/.*/    background:                     #101012ff;/g' ~/.config/awesome/misc/rofi/theme.rasi
             sed -i '19s/.*/    background-bar:                 #f2f2f215;/g' ~/.config/awesome/misc/rofi/theme.rasi
