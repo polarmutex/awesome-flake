@@ -16,3 +16,6 @@ require('rules')
 
 -- load signals
 require('signals')
+
+-- load theme
+require('theme')

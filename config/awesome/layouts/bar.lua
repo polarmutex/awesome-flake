@@ -1,12 +1,14 @@
 local M = {}
 
 local awful = require('awful')
+local gears = require('gears')
 local hotkeys_popup = require('awful.hotkeys_popup')
 local beautiful = require('beautiful')
 local wibox = require('wibox')
 local dpi = beautiful.xresources.apply_dpi
 
 local apps = require('config.apps')
+local helpers = require('helpers')
 local mod = require('bindings.mod')
 
 -- screen width
@@ -42,7 +44,7 @@ M.keyboardlayout = awful.widget.keyboardlayout()
 M.textclock = wibox.widget({
     widget = wibox.widget.textclock(),
     format = '%I:%M   %a %d',
-    --font = beautiful.font_var .. 'Bold 13',
+    font = beautiful.font_var,
     valign = 'center',
     align = 'center',
 })
@@ -88,55 +90,67 @@ function M.create_layoutbox(s)
 end
 
 function M.create_taglist(s)
+    -- Taglist buttons
+    local taglist_buttons = gears.table.join(
+        awful.button({}, 1, function(t)
+            t:view_only()
+        end),
+        awful.button({ mod.super }, 1, function(t)
+            if client.focus then
+                client.focus:move_to_tag(t)
+            end
+        end),
+        awful.button({}, 3, awful.tag.viewtoggle),
+        awful.button({ mod.super }, 3, function(t)
+            if client.focus then
+                client.focus:toggle_tag(t)
+            end
+        end),
+        awful.button({}, 4, function(t)
+            awful.tag.viewnext(t.screen)
+        end),
+        awful.button({}, 5, function(t)
+            awful.tag.viewprev(t.screen)
+        end)
+    )
+
     return awful.widget.taglist({
         screen = s,
         filter = awful.widget.taglist.filter.all,
-        buttons = {
-            awful.button({
-                modifiers = {},
-                button = 1,
-                on_press = function(t)
-                    t:view_only()
-                end,
-            }),
-            awful.button({
-                modifiers = { mod.super },
-                button = 1,
-                on_press = function(t)
-                    if client.focus then
-                        client.focus:move_to_tag(t)
-                    end
-                end,
-            }),
-            awful.button({
-                modifiers = {},
-                button = 3,
-                on_press = awful.tag.viewtoggle,
-            }),
-            awful.button({
-                modifiers = { mod.super },
-                button = 3,
-                on_press = function(t)
-                    if client.focus then
-                        client.focus:toggle_tag(t)
-                    end
-                end,
-            }),
-            awful.button({
-                modifiers = {},
-                button = 4,
-                on_press = function(t)
-                    awful.tag.viewprev(t.screen)
-                end,
-            }),
-            awful.button({
-                modifiers = {},
-                button = 5,
-                on_press = function(t)
-                    awful.tag.viewnext(t.screen)
-                end,
-            }),
+        style = { shape = helpers.rrect(5) },
+        layout = { spacing = dpi(16), layout = wibox.layout.fixed.horizontal },
+        widget_template = {
+            widget = wibox.container.background,
+            shape = gears.shape.rounded_rect,
+            forced_width = dpi(13),
+            forced_height = dpi(12),
+
+            create_callback = function(self, c3, _)
+                if c3.selected then
+                    self.bg = beautiful.accent
+                    self.forced_width = dpi(20)
+                elseif #c3:clients() == 0 then
+                    self.bg = beautiful.bg_3
+                    self.forced_width = dpi(12)
+                else
+                    self.bg = beautiful.accent_2
+                    self.forced_width = dpi(12)
+                end
+            end,
+            update_callback = function(self, c3, _)
+                if c3.selected then
+                    self.bg = beautiful.accent
+                    self.forced_width = dpi(20)
+                elseif #c3:clients() == 0 then
+                    self.bg = beautiful.bg_3
+                    self.forced_width = dpi(12)
+                else
+                    self.bg = beautiful.accent_2
+                    self.forced_width = dpi(12)
+                end
+            end,
         },
+        buttons = taglist_buttons,
     })
 end
 
