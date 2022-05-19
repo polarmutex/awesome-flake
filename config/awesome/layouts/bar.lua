@@ -1,14 +1,18 @@
-local _M = {}
+local M = {}
 
 local awful = require('awful')
 local hotkeys_popup = require('awful.hotkeys_popup')
 local beautiful = require('beautiful')
 local wibox = require('wibox')
+local dpi = beautiful.xresources.apply_dpi
 
 local apps = require('config.apps')
 local mod = require('bindings.mod')
 
-_M.awesomemenu = {
+-- screen width
+local screen_width = awful.screen.focused().geometry.width
+
+M.awesomemenu = {
     {
         'hotkeys',
         function()
@@ -21,26 +25,26 @@ _M.awesomemenu = {
     { 'quit', awesome.quit },
 }
 
-_M.mainmenu = awful.menu({
+M.mainmenu = awful.menu({
     items = {
-        { 'awesome', _M.awesomemenu, beautiful.awesome_icon },
+        { 'awesome', M.awesomemenu, beautiful.awesome_icon },
         { 'open terminal', apps.terminal },
     },
 })
 
-_M.launcher = awful.widget.launcher({
+M.launcher = awful.widget.launcher({
     image = beautiful.awesome_icon,
-    menu = _M.mainmenu,
+    menu = M.mainmenu,
 })
 
-_M.keyboardlayout = awful.widget.keyboardlayout()
-_M.textclock = wibox.widget.textclock()
+M.keyboardlayout = awful.widget.keyboardlayout()
+M.textclock = wibox.widget.textclock()
 
-function _M.create_promptbox()
+function M.create_promptbox()
     return awful.widget.prompt()
 end
 
-function _M.create_layoutbox(s)
+function M.create_layoutbox(s)
     return awful.widget.layoutbox({
         screen = s,
         buttons = {
@@ -76,7 +80,7 @@ function _M.create_layoutbox(s)
     })
 end
 
-function _M.create_taglist(s)
+function M.create_taglist(s)
     return awful.widget.taglist({
         screen = s,
         filter = awful.widget.taglist.filter.all,
@@ -129,7 +133,7 @@ function _M.create_taglist(s)
     })
 end
 
-function _M.create_tasklist(s)
+function M.create_tasklist(s)
     return awful.widget.tasklist({
         screen = s,
         filter = awful.widget.tasklist.filter.currenttags,
@@ -166,31 +170,60 @@ function _M.create_tasklist(s)
     })
 end
 
-function _M.create_wibox(s)
-    return awful.wibar({
+function M.create_wibox(s)
+    local wibar = awful.wibar({
         screen = s,
-        position = 'top',
-        widget = {
-            layout = wibox.layout.align.horizontal,
-            -- left widgets
-            {
-                layout = wibox.layout.fixed.horizontal,
-                _M.launcher,
-                s.taglist,
-                s.promptbox,
-            },
-            -- middle widgets
-            s.tasklist,
-            -- right widgets
-            {
-                layout = wibox.layout.fixed.horizontal,
-                _M.keyboardlayout,
-                wibox.widget.systray(),
-                _M.textclock,
-                s.layoutbox,
-            },
-        },
+        visible = true,
+        ontop = false,
+        type = 'dock',
+        --height = dpi(44),
+        --bg = '#00000000',
+        width = screen_width,
     })
+
+    -- wibar placement
+    awful.placement.top(wibar)
+    wibar:struts({ top = wibar.height })
+
+    -- bar setup
+    wibar:setup({
+        {
+            {
+                M.launcher,
+                M.textclock,
+                s.promptbox,
+                layout = wibox.layout.fixed.horizontal,
+                spacing = dpi(16),
+            },
+            {
+                {
+                    nil,
+                    {
+                        s.taglist,
+                        layout = wibox.layout.fixed.vertical,
+                    },
+                    expand = 'none',
+                    layout = wibox.layout.align.vertical,
+                },
+                layout = wibox.layout.fixed.horizontal,
+                spacing = dpi(20),
+            },
+            {
+                --battery,
+                --wifi,
+                wibox.widget.systray(),
+                s.layoutbox,
+                layout = wibox.layout.fixed.horizontal,
+                spacing = dpi(16),
+            },
+            layout = wibox.layout.align.horizontal,
+            expand = 'none',
+        },
+        layout = wibox.container.margin,
+        margins = { left = dpi(14), right = dpi(14) },
+    })
+
+    return wibar
 end
 
-return _M
+return M
