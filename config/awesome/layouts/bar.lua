@@ -38,7 +38,14 @@ M.launcher = awful.widget.launcher({
 })
 
 M.keyboardlayout = awful.widget.keyboardlayout()
-M.textclock = wibox.widget.textclock()
+
+M.textclock = wibox.widget({
+    widget = wibox.widget.textclock(),
+    format = '%I:%M   %a %d',
+    --font = beautiful.font_var .. 'Bold 13',
+    valign = 'center',
+    align = 'center',
+})
 
 function M.create_promptbox()
     return awful.widget.prompt()
