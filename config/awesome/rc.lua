@@ -27,9 +27,6 @@ require('configuration')
 -- load key and mouse bindings
 require('bindings')
 
--- load rules
-require('rules')
-
 -- load signals
 require('signals')
 

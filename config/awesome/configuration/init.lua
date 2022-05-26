@@ -11,7 +11,7 @@ require('configuration.wallpaper')
 --require('configuration.keys')
 
 -- Get Rules
---require('configuration.ruled')
+require('configuration.rules')
 
 -- Layouts and Window Stuff
 require('configuration.window')
