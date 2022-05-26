@@ -1,7 +1,11 @@
--- awesome_mode: api-level=4:screen=on
-
--- load luarocks if installed
+-- If LuaRocks is installed, make sure that packages installed through it are
+-- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, 'luarocks.loader')
+
+-- Standard awesome library
+local gfs = require('gears.filesystem')
+local awful = require('awful')
+require('awful.autofocus')
 
 -- load theme
 local beautiful = require('beautiful')
