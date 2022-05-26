@@ -7,7 +7,7 @@ local beautiful = require('beautiful')
 local wibox = require('wibox')
 local dpi = beautiful.xresources.apply_dpi
 
-local apps = require('config.apps')
+local apps = require('configuration.apps')
 local helpers = require('helpers')
 local mod = require('bindings.mod')
 

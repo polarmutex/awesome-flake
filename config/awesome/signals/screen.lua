@@ -2,7 +2,7 @@ local awful = require('awful')
 local beautiful = require('beautiful')
 local wibox = require('wibox')
 
-local vars = require('config.vars')
+local vars = require('configuration.vars')
 local bar = require('layouts.bar')
 local gears = require('gears')
 

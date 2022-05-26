@@ -32,7 +32,7 @@ client.connect_signal('unfocus', function(c)
 end)
 
 -- Layouts
-local vars = require('config.vars')
+local vars = require('configuration.vars')
 tag.connect_signal('request::default_layouts', function()
     awful.layout.append_default_layouts(vars.layouts)
 end)
