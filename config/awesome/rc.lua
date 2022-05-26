@@ -22,6 +22,8 @@ local beautiful = require('beautiful')
 local gfs = require('gears.filesystem')
 beautiful.init(gfs.get_themes_dir() .. 'default/theme.lua')
 
+require('configuration')
+
 -- load key and mouse bindings
 require('bindings')
 

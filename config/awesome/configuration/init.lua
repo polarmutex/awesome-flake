@@ -14,7 +14,7 @@ require('configuration.wallpaper')
 --require('configuration.ruled')
 
 -- Layouts and Window Stuff
---require('configuration.window')
+require('configuration.window')
 
 -- Scratchpad
 --require('configuration.scratchpad')
