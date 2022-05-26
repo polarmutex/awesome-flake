@@ -2,7 +2,7 @@
 require('configuration.autostart')
 
 -- Set Autostart Applications
---require('configuration.wallpaper')
+require('configuration.wallpaper')
 
 -- Get Bling Config
 --require('configuration.bling')
