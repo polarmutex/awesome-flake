@@ -1,5 +1,5 @@
 local _M = {
-    terminal = 'st',
+    terminal = os.getenv('TERMINAL') or 'st',
     editor = 'nvim',
 }
 
