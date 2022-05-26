@@ -7,6 +7,19 @@ local gfs = require('gears.filesystem')
 local awful = require('awful')
 require('awful.autofocus')
 
+-- Notification library
+local naughty = require('naughty')
+
+-- Check if awesome encountered an error during startup and fell back to
+-- another config (This code will only ever execute for the fallback config)
+naughty.connect_signal('request::display_error', function(message, startup)
+    naughty.notification({
+        urgency = 'critical',
+        title = 'Oops, an error happened' .. (startup and ' during startup!' or '!'),
+        message = message,
+    })
+end)
+
 -- load theme
 local beautiful = require('beautiful')
 local gears = require('gears')
