@@ -41,7 +41,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
 end)
 
 -- load signals
---require('signals')
+require('signals')
 
 -- load theme
 require('theme')
