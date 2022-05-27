@@ -20,12 +20,9 @@ end)
 -- load theme
 local beautiful = require('beautiful')
 local gfs = require('gears.filesystem')
-beautiful.init(gfs.get_themes_dir() .. 'default/theme.lua')
+beautiful.init(gfs.get_configuration_dir() .. 'themes/polar/theme.lua')
 
 require('configuration')
 
 require('signals')
 require('ui')
-
--- load theme
-require('theme')

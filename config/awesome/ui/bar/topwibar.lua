@@ -49,7 +49,7 @@ M.keyboardlayout = awful.widget.keyboardlayout()
 M.textclock = wibox.widget({
     widget = wibox.widget.textclock(),
     format = '%I:%M   %a %d',
-    font = beautiful.font_var,
+    font = beautiful.font_name,
     valign = 'center',
     align = 'center',
 })
@@ -132,25 +132,25 @@ function M.create_taglist(s)
 
             create_callback = function(self, c3, _)
                 if c3.selected then
-                    self.bg = beautiful.accent
+                    self.bg = beautiful.xcolor3
                     self.forced_width = dpi(20)
                 elseif #c3:clients() == 0 then
-                    self.bg = beautiful.bg_3
+                    self.bg = beautiful.darker_bg
                     self.forced_width = dpi(12)
                 else
-                    self.bg = beautiful.accent_2
+                    self.bg = beautiful.xcolor3
                     self.forced_width = dpi(12)
                 end
             end,
             update_callback = function(self, c3, _)
                 if c3.selected then
-                    self.bg = beautiful.accent
+                    self.bg = beautiful.xcolor3
                     self.forced_width = dpi(20)
                 elseif #c3:clients() == 0 then
-                    self.bg = beautiful.bg_3
+                    self.bg = beautiful.darker_bg
                     self.forced_width = dpi(12)
                 else
-                    self.bg = beautiful.accent_2
+                    self.bg = beautiful.xcolor3
                     self.forced_width = dpi(12)
                 end
             end,
