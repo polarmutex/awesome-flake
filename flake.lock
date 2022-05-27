@@ -36,6 +36,22 @@
         "type": "github"
       }
     },
+    "bling-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1652282912,
+        "narHash": "sha256-TBEaxHRYtEyOVxtym/IaXuq0CVbizWTx8mAqIRww/r4=",
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "rev": "6e4ecb334c3764483d04b4e6bfc15abf98043bef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1652776076,
@@ -139,11 +155,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1653413521,
-        "narHash": "sha256-GOnbT3ZEh3GDqX026EaFkvg5/2XgUe5aaL+9RvFLvKE=",
+        "lastModified": 1653602345,
+        "narHash": "sha256-HJOCS3nrZn9XmdtrRYtE3c/THGSduROYN7c4eXkM6gY=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "e5490b38b720d04a3361fd83f50099f3a71dd6c1",
+        "rev": "e2940d3c79586503c0a645010ae56c7097ca7c3f",
         "type": "github"
       },
       "original": {
@@ -155,11 +171,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1653060744,
-        "narHash": "sha256-kfRusllRumpt33J1hPV+CeCCylCXEU7e0gn2/cIM7cY=",
+        "lastModified": 1653407748,
+        "narHash": "sha256-g9puJaILRTb9ttlLQ7IehpV7Wcy0n+vs8LOFu6ylQcM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "dfd82985c273aac6eced03625f454b334daae2e8",
+        "rev": "5ce6597eca7d7b518c03ecda57d45f9404b5e060",
         "type": "github"
       },
       "original": {
@@ -193,9 +209,12 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "narHash": "sha256-kfRusllRumpt33J1hPV+CeCCylCXEU7e0gn2/cIM7cY=",
-        "path": "/nix/store/a3i6cnnswvdg4k38jmibnjms65rjvyi7-source",
-        "type": "path"
+        "lastModified": 1653326962,
+        "narHash": "sha256-W8feCYqKTsMre4nAEpv5Kx1PVFC+hao/LwqtB2Wci/8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "41cc1d5d9584103be4108c1815c350e07c807036",
+        "type": "github"
       },
       "original": {
         "id": "nixpkgs",
@@ -238,18 +257,20 @@
       "inputs": {
         "awesome-git-src": "awesome-git-src",
         "beancount-langserver": "beancount-langserver",
+        "bling-git": "bling-git",
         "flake-utils": "flake-utils_3",
         "naersk": "naersk_2",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_6",
+        "rubato-git": "rubato-git",
         "wezterm-git-src": "wezterm-git-src"
       },
       "locked": {
-        "lastModified": 1653425320,
-        "narHash": "sha256-AsaQpfVcoH0YEcTD9cNdZExBZzruiWrHj5FXO+ipytA=",
+        "lastModified": 1653629220,
+        "narHash": "sha256-PBaFFSwlBfrW3M0laiBu5oL5X1Mfn1p23+g3qNzOZ9A=",
         "owner": "polarmutex",
         "repo": "nur",
-        "rev": "73756aec68deb3921fe8b05efb08bf579c806ad4",
+        "rev": "128556d938e23e8cbabc4ebd4955ba7387de09b3",
         "type": "github"
       },
       "original": {
@@ -265,14 +286,30 @@
         "polar-nur": "polar-nur"
       }
     },
+    "rubato-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1652022057,
+        "narHash": "sha256-BixO7PagHUm7pX5V7RTaC3/ffNErGw3bf77qeSLleqI=",
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "rev": "7ed12e183583a7ce3b59714452217af9a1f02ce6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "type": "github"
+      }
+    },
     "wezterm-git-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1653410319,
-        "narHash": "sha256-uEq4bxrZwPg2YdqUnY/jevk+5PZJI/nn7lViViaBTTY=",
+        "lastModified": 1653608835,
+        "narHash": "sha256-27r+mnobiPdV6bGV0WJUEAXj14H1UFltbjGV5u8dJc4=",
         "ref": "main",
-        "rev": "a70ddd9212ee010639db3f1f59685e250a5e10eb",
-        "revCount": 5634,
+        "rev": "509fd98b0309c0e315dba01c6050e8b1cfcb6826",
+        "revCount": 5655,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/wez/wezterm.git"

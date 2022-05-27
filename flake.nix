@@ -25,59 +25,50 @@
     ]
       (system:
         let
+
           pkgs = import nixpkgs {
             inherit system;
             allowBroken = false;
             allowUnfree = false;
             overlays = [
-              polar-nur.overlay
+              polar-nur.overlays.default
             ];
           };
+
+          inherit (builtins) filter;
+          inherit (pkgs) lib mkShell writeShellScriptBin;
+
+          extensions = [
+            pkgs.bling-git
+            pkgs.rubato-git
+          ];
+
+          # From https://github.com/rycee/home-manager/blob/master/modules/services/window-managers/awesome.nix
+          makeSearchPath = lib.concatMapStrings (path:
+            " --search ${getLuaPath path "share"}"
+            + " --search ${getLuaPath path "lib"}"
+          );
+          getLuaPath = lib: dir: "${lib}/${dir}/lua/${pkgs.luaPackages.lua.luaversion}";
+
+          awesome-test = pkgs.writeShellScriptBin "awesome-test" ''
+            export GUEST_DISPLAY=:10
+            unset XDG_SEAT
+            ${pkgs.xorg.xorgserver}/bin/Xephyr -br -ac -noreset -screen 1280x1000 $GUEST_DISPLAY &
+            export DISPLAY=$GUEST_DISPLAY
+            X_PID=$!
+            trap "kill $X_PID || true" EXIT
+            sleep 1
+            ${pkgs.awesome-git}/bin/awesome -c config/awesome/rc.lua --search config ${makeSearchPath (filter (x: lib.isDerivation x) extensions)}
+          '';
         in
         rec {
-          packages = flake-utils.lib.flattenTree rec {
 
-            awesome-configuration = pkgs.stdenv.mkDerivation rec {
-              pname = "awesome-configration";
-              version = "1.0";
-
-              src = ./config/awesome;
-
-              dontBuild = true;
-
-              nativeBuildInputs =
-                [ pkgs.luaPackages.lgi pkgs.luaPackages.luafilesystem ];
-
-              installPhase = ''
-                cp -r . $out
-                cat >$out/run-test <<EOL
-                #!/usr/bin/env bash
-                set -eu -o pipefail
-                export AWESOME_THEME=$out/theme.lua
-                unset XDG_SEAT
-                Xephyr :5 -screen 1900x1068 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c $out/rc.lua --search $out
-                EOL
-                chmod +x $out/run-test
-              '';
-
-              meta = with pkgs.lib; {
-                homepage = "https://github.com/pinpox/dotfiles-awesome";
-                description = "Pinpox's awesomeWM configuration";
-                license = licenses.mit;
-                maintainers = [ maintainers.pinpox ];
-              };
-            };
-
+          devShell = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              awesome-git
+              awesome-test
+            ];
           };
-
-          apps = {
-            test-config = flake-utils.lib.mkApp {
-              drv = packages.awesome-configuration;
-              exePath = "/run-test";
-            };
-          };
-
-          defaultApp = apps.test-config;
 
         });
 }
