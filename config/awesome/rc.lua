@@ -24,24 +24,11 @@ beautiful.init(gfs.get_themes_dir() .. 'default/theme.lua')
 
 require('configuration')
 
+require('signals')
+require('ui')
+
 -- load key and mouse bindings
 require('bindings')
-
---TODO compare to connect_for_each_screen
-local awful = require('awful')
-local bar = require('layouts.bar')
-local vars = require('configuration.vars')
-screen.connect_signal('request::desktop_decoration', function(s)
-    awful.tag(vars.tags, s, awful.layout.layouts[1])
-    s.promptbox = bar.create_promptbox()
-    s.layoutbox = bar.create_layoutbox(s)
-    s.taglist = bar.create_taglist(s)
-    s.tasklist = bar.create_tasklist(s)
-    s.wibox = bar.create_wibox(s)
-end)
-
--- load signals
-require('signals')
 
 -- load theme
 require('theme')

@@ -247,4 +247,13 @@ function M.create_wibox(s)
     return wibar
 end
 
-return M
+--TODO compare to connect_for_each_screen
+local vars = require('configuration.vars')
+screen.connect_signal('request::desktop_decoration', function(s)
+    awful.tag(vars.tags, s, awful.layout.layouts[1])
+    s.promptbox = M.create_promptbox()
+    s.layoutbox = M.create_layoutbox(s)
+    s.taglist = M.create_taglist(s)
+    s.tasklist = M.create_tasklist(s)
+    s.wibox = M.create_wibox(s)
+end)

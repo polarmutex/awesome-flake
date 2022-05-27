@@ -5,7 +5,7 @@ local menubar = require('menubar')
 
 local apps = require('configuration.apps')
 local mod = require('bindings.mod')
-local bar = require('layouts.bar')
+--local bar = require('layouts.bar')
 
 menubar.utils.terminal = apps.terminal
 
@@ -18,15 +18,15 @@ awful.keyboard.append_global_keybindings({
         group = 'awesome',
         on_press = hotkeys_popup.show_help,
     }),
-    awful.key({
-        modifiers = { mod.super },
-        key = 'w',
-        description = 'show main menu',
-        group = 'awesome',
-        on_press = function()
-            bar.mainmenu:show()
-        end,
-    }),
+    --awful.key({
+    --    modifiers = { mod.super },
+    --    key = 'w',
+    --    description = 'show main menu',
+    --    group = 'awesome',
+    --    on_press = function()
+    --        bar.mainmenu:show()
+    --    end,
+    --}),
     awful.key({
         modifiers = { mod.super, mod.ctrl },
         key = 'r',

@@ -1,14 +1,14 @@
 local awful = require('awful')
-local bar = require('layouts.bar')
+--local bar = require('layouts.bar')
 
 awful.mouse.append_global_mousebindings({
-    awful.button({
-        modifiers = {},
-        button = 3,
-        on_press = function()
-            bar.mainmenu:toggle()
-        end,
-    }),
+    --awful.button({
+    --    modifiers = {},
+    --    button = 3,
+    --    on_press = function()
+    --        bar.mainmenu:toggle()
+    --    end,
+    --}),
     awful.button({
         modifiers = {},
         button = 4,
