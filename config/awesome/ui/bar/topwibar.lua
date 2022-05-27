@@ -132,25 +132,25 @@ function M.create_taglist(s)
 
             create_callback = function(self, c3, _)
                 if c3.selected then
-                    self.bg = beautiful.xcolor3
+                    self.bg = beautiful.accent
                     self.forced_width = dpi(20)
                 elseif #c3:clients() == 0 then
-                    self.bg = beautiful.darker_bg
+                    self.bg = beautiful.accent_off
                     self.forced_width = dpi(12)
                 else
-                    self.bg = beautiful.xcolor3
+                    self.bg = beautiful.accent_light
                     self.forced_width = dpi(12)
                 end
             end,
             update_callback = function(self, c3, _)
                 if c3.selected then
-                    self.bg = beautiful.xcolor3
+                    self.bg = beautiful.accent
                     self.forced_width = dpi(20)
                 elseif #c3:clients() == 0 then
-                    self.bg = beautiful.darker_bg
+                    self.bg = beautiful.accent_off
                     self.forced_width = dpi(12)
                 else
-                    self.bg = beautiful.xcolor3
+                    self.bg = beautiful.accent_light
                     self.forced_width = dpi(12)
                 end
             end,

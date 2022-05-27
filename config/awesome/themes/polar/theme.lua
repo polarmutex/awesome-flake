@@ -33,6 +33,10 @@ theme.xcolor13 = xrdb.color13 or '#bb9af7'
 theme.xcolor14 = xrdb.color14 or '#7dcfff'
 theme.xcolor15 = xrdb.color15 or '#c0caf5'
 
+theme.accent = theme.xcolor3
+theme.accent_light = '#f2ddbe'
+theme.accent_off = '#374f67'
+
 -- Fonts
 --
 theme.font_name = 'MonoLisa Nerd Font Mono '
@@ -40,5 +44,20 @@ theme.font = theme.font_name .. '8'
 theme.icon_font_name = 'MonoLisa Nerd Font Mono '
 theme.icon_font = theme.icon_font_name .. '18'
 theme.font_taglist = theme.icon_font_name .. '8'
+
+-- Borders
+--
+theme.border_width = dpi(2)
+theme.oof_border_width = dpi(0)
+theme.border_normal = theme.darker_bg
+theme.border_focus = theme.accent
+theme.border_radius = dpi(6)
+theme.client_radius = dpi(12)
+theme.widget_border_width = dpi(2)
+theme.widget_border_color = theme.darker_bg
+
+-- Gaps
+--
+theme.useless_gap = dpi(2)
 
 return theme
