@@ -58,7 +58,7 @@
             X_PID=$!
             trap "kill $X_PID || true" EXIT
             sleep 1
-            ${pkgs.awesome-git}/bin/awesome -c config/awesome/rc.lua --search config ${makeSearchPath (filter (x: lib.isDerivation x) extensions)}
+            ${pkgs.awesome-git}/bin/awesome -c rc.lua --search config ${makeSearchPath (filter (x: lib.isDerivation x) extensions)}
           '';
         in
         rec {
