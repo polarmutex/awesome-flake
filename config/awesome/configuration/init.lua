@@ -8,7 +8,7 @@ require('configuration.wallpaper')
 --require('configuration.bling')
 
 -- Get Keybinds
---require('configuration.keys')
+require('configuration.keys')
 
 -- Get Rules
 require('configuration.rules')

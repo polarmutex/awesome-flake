@@ -4,7 +4,12 @@ require('awful.hotkeys_popup.keys')
 local menubar = require('menubar')
 
 local apps = require('configuration.apps')
-local mod = require('bindings.mod')
+local mod = {
+    alt = 'Mod1',
+    super = 'Mod4',
+    shift = 'Shift',
+    ctrl = 'Control',
+}
 --local bar = require('layouts.bar')
 
 menubar.utils.terminal = apps.terminal
@@ -333,3 +338,146 @@ awful.keyboard.append_global_keybindings({
         end,
     }),
 })
+
+client.connect_signal('request::default_keybindings', function()
+    awful.keyboard.append_client_keybindings({
+        awful.key({
+            modifiers = { mod.super },
+            key = 'f',
+            description = 'toggle fullscreen',
+            group = 'client',
+            on_press = function(c)
+                c.fullscreen = not c.fullscreen
+                c:raise()
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super, mod.shift },
+            key = 'c',
+            description = 'close',
+            group = 'client',
+            on_press = function(c)
+                c:kill()
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super, mod.ctrl },
+            key = 'space',
+            description = 'toggle floating',
+            group = 'client',
+            on_press = awful.client.floating.toggle,
+        }),
+        awful.key({
+            modifiers = { mod.super, mod.ctrl },
+            key = 'Return',
+            description = 'move to master',
+            group = 'client',
+            on_press = function(c)
+                c:swap(awful.client.getmaster())
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super },
+            key = 'o',
+            description = 'move to screen',
+            group = 'client',
+            on_press = function(c)
+                c:move_to_screen()
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super },
+            key = 't',
+            description = 'toggle keep on top',
+            group = 'client',
+            on_press = function(c)
+                c.ontop = not c.ontop
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super },
+            key = 'n',
+            description = 'minimize',
+            group = 'client',
+            on_press = function(c)
+                c.minimized = true
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super },
+            key = 'm',
+            description = '(un)maximize',
+            group = 'client',
+            on_press = function(c)
+                c.maximized = not c.maximized
+                c:raise()
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super, mod.ctrl },
+            key = 'm',
+            description = '(un)maximize vertically',
+            group = 'client',
+            on_press = function(c)
+                c.maximized_vertical = not c.maximized_vertical
+                c:raise()
+            end,
+        }),
+        awful.key({
+            modifiers = { mod.super, mod.shift },
+            key = 'm',
+            description = '(un)maximize horizontally',
+            group = 'client',
+            on_press = function(c)
+                c.maximized_horizontal = not c.maximized_horizontal
+                c:raise()
+            end,
+        }),
+    })
+end)
+
+awful.mouse.append_global_mousebindings({
+    --awful.button({
+    --    modifiers = {},
+    --    button = 3,
+    --    on_press = function()
+    --        bar.mainmenu:toggle()
+    --    end,
+    --}),
+    awful.button({
+        modifiers = {},
+        button = 4,
+        on_press = awful.tag.viewprev,
+    }),
+    awful.button({
+        modifiers = {},
+        button = 5,
+        on_press = awful.tag.viewnext,
+    }),
+})
+
+client.connect_signal('request::default_mousebindings', function()
+    awful.mouse.append_client_mousebindings({
+        awful.button({
+            modifiers = {},
+            button = 1,
+            on_press = function(c)
+                c:activate({ context = 'mouse_click' })
+            end,
+        }),
+        awful.button({
+            modifiers = { mod.super },
+            button = 1,
+            on_press = function(c)
+                c:activate({ context = 'mouse_click', action = 'mouse_move' })
+            end,
+        }),
+        awful.button({
+            modifiers = { mod.super },
+            button = 3,
+            on_press = function(c)
+                c:activate({ context = 'mouse_click', action = 'mouse_resize' })
+            end,
+        }),
+    })
+end)

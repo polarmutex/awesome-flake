@@ -27,8 +27,5 @@ require('configuration')
 require('signals')
 require('ui')
 
--- load key and mouse bindings
-require('bindings')
-
 -- load theme
 require('theme')

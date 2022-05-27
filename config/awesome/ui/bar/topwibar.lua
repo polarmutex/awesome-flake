@@ -9,7 +9,12 @@ local dpi = beautiful.xresources.apply_dpi
 
 local apps = require('configuration.apps')
 local helpers = require('helpers')
-local mod = require('bindings.mod')
+local mod = {
+    alt = 'Mod1',
+    super = 'Mod4',
+    shift = 'Shift',
+    ctrl = 'Control',
+}
 
 -- screen width
 local screen_width = awful.screen.focused().geometry.width
