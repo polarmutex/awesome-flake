@@ -13,6 +13,8 @@ require('configuration.keys')
 -- Get Rules
 require('configuration.rules')
 
+require('configuration.tags')
+
 -- Layouts and Window Stuff
 require('configuration.window')
 

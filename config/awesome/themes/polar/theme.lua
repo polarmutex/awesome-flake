@@ -39,9 +39,9 @@ theme.accent_off = '#374f67'
 
 -- Fonts
 --
-theme.font_name = 'MonoLisa Nerd Font Mono '
+theme.font_name = 'MonoLisa Nerd Font '
 theme.font = theme.font_name .. '8'
-theme.icon_font_name = 'MonoLisa Nerd Font Mono '
+theme.icon_font_name = 'MonoLisa Nerd Font '
 theme.icon_font = theme.icon_font_name .. '18'
 theme.font_taglist = theme.icon_font_name .. '8'
 

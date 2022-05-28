@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "awesome-battery-widget-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1629647896,
+        "narHash": "sha256-ELNWKnwHDOxgC30xP3gTT1pYLZgGvGd9eVJKd5Ok98A=",
+        "owner": "Aire-One",
+        "repo": "awesome-battery_widget",
+        "rev": "48b83f444d175496104f3b9ff36f1dff0473e01e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Aire-One",
+        "repo": "awesome-battery_widget",
+        "type": "github"
+      }
+    },
     "awesome-git-src": {
       "flake": false,
       "locked": {
@@ -171,11 +187,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1653407748,
-        "narHash": "sha256-g9puJaILRTb9ttlLQ7IehpV7Wcy0n+vs8LOFu6ylQcM=",
+        "lastModified": 1653495658,
+        "narHash": "sha256-66YwJ6nuDHRxpYRiKtNC3qA9QkrHHJn6c+cJriiOGZI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5ce6597eca7d7b518c03ecda57d45f9404b5e060",
+        "rev": "7fa8d8b2e206be87de8e4128441384f171c8a33b",
         "type": "github"
       },
       "original": {
@@ -255,6 +271,7 @@
     },
     "polar-nur": {
       "inputs": {
+        "awesome-battery-widget-git": "awesome-battery-widget-git",
         "awesome-git-src": "awesome-git-src",
         "beancount-langserver": "beancount-langserver",
         "bling-git": "bling-git",
@@ -266,11 +283,11 @@
         "wezterm-git-src": "wezterm-git-src"
       },
       "locked": {
-        "lastModified": 1653629220,
-        "narHash": "sha256-PBaFFSwlBfrW3M0laiBu5oL5X1Mfn1p23+g3qNzOZ9A=",
+        "lastModified": 1653709806,
+        "narHash": "sha256-0xp78BHDTlBJO+Ve2wGChBawu5UDiu5c8hlwpUwT7IE=",
         "owner": "polarmutex",
         "repo": "nur",
-        "rev": "128556d938e23e8cbabc4ebd4955ba7387de09b3",
+        "rev": "09aea2d074f0a4948c671e276ac9999b032fd668",
         "type": "github"
       },
       "original": {

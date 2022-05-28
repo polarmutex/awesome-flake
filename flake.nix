@@ -39,6 +39,7 @@
           inherit (pkgs) lib mkShell writeShellScriptBin;
 
           extensions = [
+            pkgs.awesome-battery-widget-git
             pkgs.bling-git
             pkgs.rubato-git
           ];
