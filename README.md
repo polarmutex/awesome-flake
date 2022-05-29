@@ -2,6 +2,10 @@
 
 my awesome wm config as a nixos flake
 
+## TODO
+
+- Mouse events when switching tags
+
 ## look into
 
 - [rubato](https://github.com/andOrlando/rubato)
@@ -10,4 +14,5 @@ my awesome wm config as a nixos flake
 
 ## Credits
 
+- [saimoomedits](https://github.com/saimoomedits/dotfiles/tree/main/.config/awesome)
 - [javacafe01](https://github.com/JavaCafe01/dotfiles)
