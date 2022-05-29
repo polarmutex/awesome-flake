@@ -41,6 +41,10 @@ awful.screen.connect_for_each_screen(function(s)
     }))
     -- }}
 
+    -- systray
+    local systray = wibox.widget.systray()
+    systray:set_horizontal(false)
+
     -- wifi
     local wifi = wibox.widget({
         markup = '',
@@ -205,7 +209,8 @@ awful.screen.connect_for_each_screen(function(s)
                     widget = wibox.container.margin,
                 },
                 {
-                    cc_ic,
+                    --cc_ic,
+                    systray,
                     clock,
                     layout = wibox.layout.fixed.vertical,
                     spacing = dpi(5),
