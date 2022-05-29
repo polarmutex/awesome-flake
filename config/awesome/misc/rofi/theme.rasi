@@ -1,0 +1,82 @@
+configuration {
+    font:                           "MonoLisa Nerd Font 11";
+    show-icons:                     true;
+    icon-theme:                     "Crule";
+    display-drun:                   "";
+    drun-display-format:            "{name}";
+    disable-history:                false;
+    sidebar-mode:                   false;
+}
+
+* {
+    background-color:            #131a21;
+    border-color:                #3c3836;
+    text-color:                  #fbf1c7;
+    prompt-padding:              4px;
+    selected-normal-background:  #fabd2f;
+    selected-normal-foreground:  #e0af68;
+    spacing:                     3;
+}
+#window {
+    border:  1;
+    padding: 5;
+}
+#mainbox {
+    border:  0;
+    padding: 0;
+}
+#message {
+    border:       1px dash 0px 0px ;
+    padding:      1px ;
+}
+#listview {
+    fixed-height: 0;
+    border:       2px dash 0px 0px ;
+    spacing:      2px ;
+    scrollbar:    true;
+    padding:      2px 0px 0px ;
+}
+#element {
+    border:  0;
+    padding: 1px ;
+}
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+#scrollbar {
+    width:        0px ;
+    border:       0;
+    handle-width: 0px ;
+    padding:      0;
+}
+#sidebar {
+    border: 2px dash 0px 0px ;
+}
+#button.selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#inputbar {
+    spacing:    0;
+    padding:    1px ;
+}
+#case-indicator {
+    spacing:    0;
+}
+#entry {
+    padding: 4px 4px;
+    expand: false;
+    width: 10em;
+}
+#prompt {
+    padding:          @prompt-padding;
+    background-color: @prompt-background;
+    text-color:       @prompt-foreground;
+    font:             @prompt-font;
+    border-radius:    2px;
+}

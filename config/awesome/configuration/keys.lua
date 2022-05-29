@@ -4,6 +4,7 @@ require('awful.hotkeys_popup.keys')
 local menubar = require('menubar')
 
 local apps = require('configuration.apps')
+local misc = require('misc')
 local mod = {
     alt = 'Mod1',
     super = 'Mod4',
@@ -72,10 +73,11 @@ awful.keyboard.append_global_keybindings({
     awful.key({
         modifiers = { mod.super },
         key = 'r',
-        description = 'run prompt',
+        description = 'run prompt rofi',
         group = 'launcher',
         on_press = function()
-            awful.screen.focused().promptbox:run()
+            --awful.screen.focused().promptbox:run()
+            awful.spawn(misc.rofiCommand)
         end,
     }),
     awful.key({
