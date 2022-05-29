@@ -203,21 +203,25 @@ awful.screen.connect_for_each_screen(function(s)
     -- bar setup
     s.wibar_wid:setup({
         {
-            launcher,
+            {
+                launcher,
+                margins = { left = dpi(6), right = dpi(6) },
+                widget = wibox.container.margin,
+            },
             {
                 taglist,
-                margins = { left = dpi(8), right = dpi(8) },
+                margins = { left = dpi(12), right = dpi(12) },
                 widget = wibox.container.margin,
             },
             {
                 {
                     --battery,
+                    systray,
                     margins = { left = dpi(8), right = dpi(8) },
                     widget = wibox.container.margin,
                 },
                 {
                     --cc_ic,
-                    systray,
                     clock,
                     layout = wibox.layout.fixed.vertical,
                     spacing = dpi(5),

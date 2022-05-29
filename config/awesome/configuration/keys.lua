@@ -15,15 +15,27 @@ local mod = {
 
 menubar.utils.terminal = apps.terminal
 
+awful.key.keygroup.TAGS = 'tags'
+awful.key.keygroups.tags = {
+    { 'a', 1 },
+    { 'r', 2 },
+    { 's', 3 },
+    { 't', 4 },
+    { 'n', 5 },
+    { 'e', 6 },
+    { 'i', 7 },
+    { 'o', 8 },
+}
+
 -- general awesome keys
 awful.keyboard.append_global_keybindings({
-    awful.key({
-        modifiers = { mod.super },
-        key = 's',
-        description = 'show help',
-        group = 'awesome',
-        on_press = hotkeys_popup.show_help,
-    }),
+    --awful.key({
+    --    modifiers = { mod.super },
+    --    key = 's',
+    --    description = 'show help',
+    --    group = 'awesome',
+    --    on_press = hotkeys_popup.show_help,
+    --}),
     --awful.key({
     --    modifiers = { mod.super },
     --    key = 'w',
@@ -72,7 +84,7 @@ awful.keyboard.append_global_keybindings({
     }),
     awful.key({
         modifiers = { mod.super },
-        key = 'r',
+        key = 'd',
         description = 'run prompt rofi',
         group = 'launcher',
         on_press = function()
@@ -275,7 +287,7 @@ awful.keyboard.append_global_keybindings({
 awful.keyboard.append_global_keybindings({
     awful.key({
         modifiers = { mod.super },
-        keygroup = 'numrow',
+        keygroup = 'tags',
         description = 'only view tag',
         group = 'tag',
         on_press = function(index)
@@ -288,7 +300,7 @@ awful.keyboard.append_global_keybindings({
     }),
     awful.key({
         modifiers = { mod.super, mod.ctrl },
-        keygroup = 'numrow',
+        keygroup = 'tags',
         description = 'toggle tag',
         group = 'tag',
         on_press = function(index)
@@ -301,7 +313,7 @@ awful.keyboard.append_global_keybindings({
     }),
     awful.key({
         modifiers = { mod.super, mod.shift },
-        keygroup = 'numrow',
+        keygroup = 'tags',
         description = 'move focused client to tag',
         group = 'tag',
         on_press = function(index)
@@ -315,7 +327,7 @@ awful.keyboard.append_global_keybindings({
     }),
     awful.key({
         modifiers = { mod.super, mod.ctrl, mod.shift },
-        keygroup = 'numrow',
+        keygroup = 'tags',
         description = 'toggle focused client on tag',
         group = 'tag',
         on_press = function(index)
@@ -329,7 +341,7 @@ awful.keyboard.append_global_keybindings({
     }),
     awful.key({
         modifiers = { mod.super },
-        keygroup = 'numpad',
+        keygroup = 'tags',
         description = 'select layout directrly',
         group = 'layout',
         on_press = function(index)
