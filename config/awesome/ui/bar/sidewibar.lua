@@ -27,11 +27,18 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- launcher {{
     local launcher = wibox.widget({
-        widget = wibox.widget.textbox,
-        markup = helpers.colorize_text('', beautiful.xforeground),
-        font = beautiful.icon_font_name .. '21',
-        align = 'center',
-        valign = 'center',
+        {
+            {
+                widget = wibox.widget.imagebox,
+                image = beautiful.awesome_icon,
+                resize = true,
+            },
+            margins = dpi(4),
+            widget = wibox.container.margin,
+        },
+        shape = helpers.rrect(beautiful.border_radius),
+        bg = beautiful.wibar_bg,
+        widget = wibox.container.background,
     })
 
     launcher:buttons(gears.table.join({

@@ -5,6 +5,7 @@
 -- ~~~~~~~~~~~~
 local awful = require('awful')
 local gears = require('gears')
+local helpers = require('helpers')
 local wibox = require('wibox')
 local beautiful = require('beautiful')
 local xresources = require('beautiful.xresources')
@@ -41,26 +42,15 @@ local get_taglist = function(s)
     local the_taglist = awful.widget.taglist({
         screen = s,
         filter = awful.widget.taglist.filter.all,
-        style = { shape = gears.shape.circle },
+        style = { shape = helpers.rrect(5) },
         layout = { spacing = dpi(10), layout = wibox.layout.fixed.vertical },
         widget_template = {
-            {
-                {
-                    {
-                        id = 'text_role',
-                        widget = wibox.widget.textbox,
-                        align = 'center',
-                        markup = 'DD',
-                        valign = 'center',
-                    },
-                    margins = dpi(8),
-                    widget = wibox.container.margin,
-                },
-                widget = wibox.container.background,
-            },
-            id = 'background_role',
-            bg = beautiful.accent,
+            --id = 'background_role',
             widget = wibox.container.background,
+            shape = gears.shape.rounded_rect,
+            forced_width = dpi(12),
+            forced_height = dpi(12),
+            --bg = beautiful.accent,
 
             create_callback = function(self, c3, _)
                 --self:connect_signal('mouse::enter', function()
@@ -76,22 +66,21 @@ local get_taglist = function(s)
                 --end)
 
                 if c3.selected then
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent
+                    self.bg = beautiful.accent
                 elseif #c3:clients() == 0 then
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent_off
+                    self.bg = beautiful.accent_off
                 else
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent_light
+                    self.bg = beautiful.accent_light
                 end
             end,
 
             update_callback = function(self, c3, _)
                 if c3.selected then
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent
+                    self.bg = beautiful.accent
                 elseif #c3:clients() == 0 then
-                    self.bg = beautiful.xforeground
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent_off
+                    self.bg = beautiful.accent_off
                 else
-                    self:get_children_by_id('background_role')[1].bg = beautiful.accent_light
+                    self.bg = beautiful.accent_light
                 end
             end,
         },
