@@ -18,9 +18,32 @@ client.connect_signal('request::manage', function(c, context)
     end
 end)
 
+-- OLD
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal('mouse::enter', function(c)
-    c:emit_signal('request::activate', 'mouse_enter', { raise = false })
+--client.connect_signal('mouse::enter', function(c)
+--    c:emit_signal('request::activate', 'mouse_enter', { raise = false })
+--end)
+-- NEW
+-- Enable sloppy focus, so that focus follows mouse.
+-- from https://github.com/awesomeWM/awesome/issues/3349#issuecomment-846611872
+Mutex = false
+client.connect_signal('mouse::move', function(c)
+    --print('client mouse::move envent triggered')
+
+    if client.focus ~= c then
+        --print('we can change focus')
+
+        if not Mutex then
+            --print('we request focus change')
+            Mutex = true
+
+            gears.timer.delayed_call(function()
+                --print('we are in delayed_call to change focus')
+                c:activate({ context = 'mouse_enter', raise = false })
+                Mutex = false
+            end)
+        end
+    end
 end)
 
 client.connect_signal('focus', function(c)
