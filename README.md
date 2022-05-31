@@ -16,3 +16,4 @@ my awesome wm config as a nixos flake
 
 - [saimoomedits](https://github.com/saimoomedits/dotfiles/tree/main/.config/awesome)
 - [javacafe01](https://github.com/JavaCafe01/dotfiles)
+- [rxyhn](https://github.com/rxyhn/dotfiles) [vert](https://github.com/rxyhn/dotfiles/tree/11d6f8e3c6b034905ca17e3248536292ca68a856)
