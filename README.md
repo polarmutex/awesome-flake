@@ -11,6 +11,8 @@ my awesome wm config as a nixos flake
 - [rubato](https://github.com/andOrlando/rubato)
 - [UPower Battery Widget](https://github.com/Aire-One/awesome-battery_widget)
 - [vicious](https://github.com/vicious-widgets/vicious)
+- [awesome-widgets](https://github.com/streetturtle/awesome-wm-widgets)
+- [spider](https://git.linuxit.us/spider/awesome)
 
 ## Credits
 
