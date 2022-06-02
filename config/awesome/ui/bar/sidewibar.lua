@@ -10,229 +10,185 @@ local beautiful = require('beautiful')
 local helpers = require('helpers')
 local dpi = beautiful.xresources.apply_dpi
 
--- misc/vars
--- ~~~~~~~~~
+local wrap_widget = function(widget)
+    return {
+        widget,
+        margins = dpi(6),
+        widget = wibox.container.margin,
+    }
+end
+
+-- Get screen geometry
+local screen_width = awful.screen.focused().geometry.width
+local screen_height = awful.screen.focused().geometry.height
 
 -- connect to screen
 -- ~~~~~~~~~~~~~~~~~
 awful.screen.connect_for_each_screen(function(s)
-    -- screen width
-    local screen_height = s.geometry.height
+    -- aewseome icon
+    local awesome_icon = wibox.widget({
+        {
+            widget = wibox.widget.imagebox,
+            image = beautiful.awesome_icon,
+            resize = true,
+        },
+        margins = dpi(4),
+        widget = wibox.container.margin,
+    })
 
-    -- widgets
-    -- ~~~~~~~
+    -- clock
+    local hour = wibox.widget({
+        font = beautiful.font_name .. 'bold 14',
+        format = '%H',
+        align = 'center',
+        valign = 'center',
+        widget = wibox.widget.textclock,
+    })
 
-    -- taglist
-    local taglist = require('ui.bar.taglist')(s)
+    local min = wibox.widget({
+        font = beautiful.font_name .. 'bold 14',
+        format = '%M',
+        align = 'center',
+        valign = 'center',
+        widget = wibox.widget.textclock,
+    })
 
-    -- launcher {{
-    local launcher = wibox.widget({
+    local clock = wibox.widget({
         {
             {
-                widget = wibox.widget.imagebox,
-                image = beautiful.awesome_icon,
-                resize = true,
+                hour,
+                min,
+                spacing = dpi(5),
+                layout = wibox.layout.fixed.vertical,
             },
-            margins = dpi(4),
+            top = dpi(5),
+            bottom = dpi(5),
             widget = wibox.container.margin,
         },
-        shape = helpers.rrect(beautiful.border_radius),
-        bg = beautiful.wibar_bg,
+        bg = beautiful.wibar_widget_bg,
+        shape = helpers.rrect(beautiful.widget_radius),
         widget = wibox.container.background,
     })
 
-    launcher:buttons(gears.table.join({
-        awful.button({}, 1, function()
-            awful.spawn.with_shell(require('misc').rofiCommand, false)
+    -- Stats
+    local stats = wibox.widget({
+        {
+            --wrap_widget(batt),
+            clock,
+            spacing = dpi(5),
+            layout = wibox.layout.fixed.vertical,
+        },
+        bg = beautiful.wibar_widget_alt_bg,
+        shape = helpers.rrect(beautiful.widget_radius),
+        widget = wibox.container.background,
+    })
+
+    -- Create a promptbox for each screen
+    s.mypromptbox = awful.widget.prompt()
+
+    -- Layoutbox
+    local layoutbox_buttons = gears.table.join(
+        -- Left click
+        awful.button({}, 1, function(c)
+            awful.layout.inc(1)
         end),
-    }))
-    -- }}
+        -- Right click
+        awful.button({}, 3, function(c)
+            awful.layout.inc(-1)
+        end),
+        -- Scrolling
+        awful.button({}, 4, function()
+            awful.layout.inc(-1)
+        end),
+        awful.button({}, 5, function()
+            awful.layout.inc(1)
+        end)
+    )
+    s.mylayoutbox = awful.widget.layoutbox(s)
+    s.mylayoutbox:buttons(layoutbox_buttons)
+
+    local layoutbox = wibox.widget({
+        s.mylayoutbox,
+        margins = { bottom = dpi(7), left = dpi(8), right = dpi(8) },
+        widget = wibox.container.margin,
+    })
 
     -- systray
     local systray = wibox.widget.systray()
     systray:set_horizontal(false)
 
-    -- wifi
-    local wifi = wibox.widget({
-        markup = '',
-        font = beautiful.icon_font_name .. '15',
-        valign = 'center',
-        align = 'center',
-        widget = wibox.widget.textbox,
-    })
-
-    -- cc
-    local cc_ic = wibox.widget({
-        markup = '',
-        font = beautiful.icon_font_name .. '17',
-        valign = 'center',
-        align = 'center',
-        widget = wibox.widget.textbox,
-    })
-
-    --------------------
-    -- battery widget
-    local bat_icon = wibox.widget({
-        markup = "<span foreground='" .. beautiful.xcolor0 .. "'></span>",
-        font = beautiful.icon_font_name .. '10',
-        align = 'center',
-        valign = 'center',
-        widget = wibox.widget.textbox,
-    })
-
-    local battery_progress = wibox.widget({
-        color = beautiful.xcolor2,
-        background_color = beautiful.xforeground .. '00',
-        forced_width = dpi(27),
-        border_width = dpi(0.5),
-        border_color = beautiful.xforeground .. 'A6',
-        paddings = dpi(2),
-        bar_shape = helpers.rrect(dpi(2)),
-        shape = helpers.rrect(dpi(4)),
-        value = 70,
-        max_value = 100,
-        widget = wibox.widget.progressbar,
-    })
-
-    local battery_border_thing = wibox.widget({
-        wibox.widget.textbox,
-        widget = wibox.container.background,
-        border_width = dpi(0),
-        bg = beautiful.xforeground .. 'A6',
-        forced_width = dpi(9.4),
-        forced_height = dpi(9.4),
-        shape = function(cr, width, height)
-            gears.shape.pie(cr, width, height, 0, math.pi)
-        end,
-    })
-
-    local battery = wibox.widget({
-        {
-            {
-                {
-                    battery_border_thing,
-                    direction = 'south',
-                    widget = wibox.container.rotate,
-                },
-                {
-                    battery_progress,
-                    direction = 'east',
-                    widget = wibox.container.rotate(),
-                },
-                layout = wibox.layout.fixed.vertical,
-                spacing = dpi(-4),
-            },
-            {
-                bat_icon,
-                margins = { top = dpi(3) },
-                widget = wibox.container.margin,
-            },
-            layout = wibox.layout.stack,
-        },
-        widget = wibox.container.margin,
-        margins = { left = dpi(5.47), right = dpi(5.47) },
-    })
-    -- Eo battery
-    -----------------------------------------------------
-
-    cc_ic:buttons({
-        gears.table.join(awful.button({}, 1, function()
-            cc_toggle(s)
-        end)),
-    })
-
-    -- clock
-    ---------------------------
-    local clock = wibox.widget({
-        {
-            widget = wibox.widget.textclock,
-            format = '%I',
-            font = beautiful.font_name .. 'Bold 12',
-            valign = 'center',
-            align = 'center',
-        },
-        {
-            widget = wibox.widget.textclock,
-            format = '%M',
-            font = beautiful.font_name .. 'Medium 12',
-            valign = 'center',
-            align = 'center',
-        },
-        layout = wibox.layout.fixed.vertical,
-        spacing = dpi(3),
-    })
-    -- Eo clock
-    ------------------------------------------
-
-    -- update widgets accordingly
-    -- ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    awesome.connect_signal('signal::battery', function(value, state)
-        battery_progress.value = value
-
-        if state == 1 then
-            bat_icon.visible = true
-        else
-            bat_icon.visible = false
-        end
-    end)
-
-    awesome.connect_signal('signal::wifi', function(value)
-        if value then
-            wifi.markup = helpers.colorize_text('', beautiful.xforeground)
-        else
-            wifi.markup = helpers.colorize_text('', beautiful.xforeground)
-        end
-    end)
-
     -- wibar
-    s.wibar_wid = awful.wibar({
-        screen = s,
-        visible = true,
-        ontop = false,
+    s.mywibar = awful.wibar({
         type = 'dock',
-        width = dpi(38),
-        --shape = helpers.rrect(beautiful.rounded - 5),
-        bg = beautiful.xbackground,
-        height = screen_height,
+        position = 'left',
+        screen = s,
+        height = awful.screen.focused().geometry.height,
+        width = dpi(40),
+        bg = beautiful.transparent,
+        ontop = false,
+        visible = true,
     })
 
-    -- wibar placement
-    awful.placement.left(s.wibar_wid)
-    s.wibar_wid:struts({ left = s.wibar_wid.width })
+    -- Remove wibar on full screen
+    local function remove_wibar(c)
+        if c.fullscreen or c.maximized then
+            c.screen.mywibar.visible = false
+        else
+            c.screen.mywibar.visible = true
+        end
+    end
+
+    -- Remove wibar on full screen
+    local function add_wibar(c)
+        if c.fullscreen or c.maximized then
+            c.screen.mywibar.visible = true
+        end
+    end
+
+    client.connect_signal('property::fullscreen', remove_wibar)
+
+    client.connect_signal('request::unmanage', add_wibar)
+
+    -- taglist
+    s.mytaglist = require('ui.widgets.taglist-vertical')(s)
+    local taglist = wibox.widget({
+        s.mytaglist,
+        shape = beautiful.taglist_shape_focus,
+        bg = beautiful.wibar_widget_alt_bg,
+        widget = wibox.container.background,
+    })
 
     -- bar setup
-    s.wibar_wid:setup({
+    -- Add widgets to wibar
+    s.mywibar:setup({
         {
             {
-                launcher,
-                margins = { left = dpi(6), right = dpi(6) },
-                widget = wibox.container.margin,
-            },
-            {
-                taglist,
-                margins = { left = dpi(12), right = dpi(12) },
-                widget = wibox.container.margin,
-            },
-            {
-                {
-                    --battery,
-                    systray,
-                    margins = { left = dpi(8), right = dpi(8) },
-                    widget = wibox.container.margin,
-                },
-                {
-                    --cc_ic,
-                    clock,
+                layout = wibox.layout.align.vertical,
+                expand = 'none',
+                { -- top
+                    awesome_icon,
+                    taglist,
+                    spacing = dpi(10),
                     layout = wibox.layout.fixed.vertical,
-                    spacing = dpi(5),
                 },
-                layout = wibox.layout.fixed.vertical,
-                spacing = dpi(5),
+                -- middle
+                nil,
+                { -- bottom
+                    stats,
+                    --notif_center_button,
+                    layoutbox,
+                    spacing = dpi(8),
+                    layout = wibox.layout.fixed.vertical,
+                },
             },
-            layout = wibox.layout.align.vertical,
-            expand = 'none',
+            margins = dpi(8),
+            widget = wibox.container.margin,
         },
-        layout = wibox.container.margin,
-        margins = { top = dpi(10), bottom = dpi(5) },
+        bg = beautiful.wibar_bg,
+        shape = helpers.rrect(beautiful.border_radius),
+        widget = wibox.container.background,
     })
+
+    -- wibar position
+    --s.mywibar.x = dpi(25)
 end)
