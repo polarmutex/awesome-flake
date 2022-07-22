@@ -1,6 +1,7 @@
 { config
 , pkgs
 , lib
+, inputs
 , ...
 }:
 with lib;
@@ -55,6 +56,7 @@ in
 
     # old way
     xdg.configFile = link-one "config" "." "awesome";
+    home.file."repos/personal/awesome-flake/config/awesome/modules/bling".source = inputs.bling;
 
   };
 

@@ -68,6 +68,22 @@
         "type": "github"
       }
     },
+    "bling": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1655411919,
+        "narHash": "sha256-P725jMxPK7TOhLvvwQyyJBSOU48EDQeXIfcuweq6TUw=",
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "rev": "e384951c321420dcaada7ad4381a644f2c7eea83",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "type": "github"
+      }
+    },
     "bling-git": {
       "flake": false,
       "locked": {
@@ -315,6 +331,7 @@
     },
     "root": {
       "inputs": {
+        "bling": "bling",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "polar-nur": "polar-nur"

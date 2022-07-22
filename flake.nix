@@ -6,6 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     polar-nur.url = "github:polarmutex/nur";
+    bling = { url = "github:BlingCorp/bling"; flake = false; };
 
   };
   outputs = { self, ... }@inputs:
@@ -16,7 +17,7 @@
     {
       home-managerModule = { config, lib, pkgs, ... }:
         import ./home-manager.nix {
-          inherit config lib pkgs;
+          inherit config lib pkgs inputs;
         };
     } //
     flake-utils.lib.eachSystem [
