@@ -4,7 +4,6 @@ require('awful.hotkeys_popup.keys')
 local menubar = require('menubar')
 
 local apps = require('configuration.apps')
-local misc = require('misc')
 local mod = {
     alt = 'Mod1',
     super = 'Mod4',
@@ -79,7 +78,7 @@ awful.keyboard.append_global_keybindings({
         description = 'open a terminal',
         group = 'launcher',
         on_press = function()
-            awful.spawn(apps.terminal)
+            awful.spawn(apps.default.terminal)
         end,
     }),
     awful.key({
@@ -89,7 +88,7 @@ awful.keyboard.append_global_keybindings({
         group = 'launcher',
         on_press = function()
             --awful.screen.focused().promptbox:run()
-            awful.spawn(misc.rofiCommand)
+            awful.spawn(apps.default.app_launcher)
         end,
     }),
     awful.key({

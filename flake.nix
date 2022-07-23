@@ -11,9 +11,6 @@
   };
   outputs = { self, ... }@inputs:
     with inputs;
-    let
-      test = "rstin";
-    in
     {
       home-managerModule = { config, lib, pkgs, ... }:
         import ./home-manager.nix {
