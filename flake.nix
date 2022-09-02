@@ -69,7 +69,7 @@
               #!/usr/bin/env bash
               set -eu -o pipefail
               export AWESOME_THEME=$out/theme.lua
-              Xephyr :5 -screen 1980x1200 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c ${self.packages."${system}".awesome-config-polar}/rc.lua --search $out
+              Xephyr :5 -screen 2560x1400 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c ./dotfiles/rc.lua --search $out
             '';
 
         in

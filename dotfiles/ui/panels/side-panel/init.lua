@@ -23,7 +23,7 @@ local awesome_icon = wibox.widget({
         margins = dpi(4),
         widget = wibox.container.margin,
     },
-    --shape = helpers.rrect(beautiful.border_radius),
+    --shape = helpers.ui.rrect(beautiful.border_radius),
     bg = beautiful.wibar_bg,
     widget = wibox.container.background,
 })
@@ -71,35 +71,39 @@ awesome.connect_signal('signal::charger', function(state)
 end)
 
 -- Clock
-local hourtextbox = wibox.widget.textclock('%H')
---hourtextbox.markup = helpers.colorize_text(hourtextbox.text, beautiful.xforeground)
+
+-- Clock Widget ----------------------------------------------------------------
+-- Stolen from No37
+
+local hourtextbox = wibox.widget.textclock('%I')
+hourtextbox.markup = helpers.ui.colorize_text(hourtextbox.text, beautiful.xcolor5)
 hourtextbox.align = 'center'
 hourtextbox.valign = 'center'
-hourtextbox.font = beautiful.font_name .. 'medium 11'
 
 local minutetextbox = wibox.widget.textclock('%M')
 minutetextbox.align = 'center'
 minutetextbox.valign = 'center'
-minutetextbox.font = beautiful.font_name .. 'medium 11'
 
---hourtextbox:connect_signal('widget::redraw_needed', function()
---    hourtextbox.markup = helpers.colorize_text(hourtextbox.text, beautiful.xforeground)
---end)
+hourtextbox:connect_signal('widget::redraw_needed', function()
+    hourtextbox.markup = helpers.ui.colorize_text(hourtextbox.text, beautiful.xcolor5)
+end)
 
---minutetextbox:connect_signal('widget::redraw_needed', function()
---    minutetextbox.markup = helpers.colorize_text(minutetextbox.text, beautiful.xforeground)
---end)
-
---awesome.connect_signal('chcolor', function()
---    hourtextbox.markup = helpers.colorize_text(hourtextbox.text, beautiful.xforeground)
---    minutetextbox.markup = helpers.colorize_text(minutetextbox.text, beautiful.xforeground)
---end)
+minutetextbox:connect_signal('widget::redraw_needed', function()
+    minutetextbox.markup = helpers.ui.colorize_text(minutetextbox.text, beautiful.xforeground)
+end)
 
 local clock = wibox.widget({
     { hourtextbox, minutetextbox, layout = wibox.layout.fixed.vertical },
     bg = beautiful.xcolor0 .. '00',
     widget = wibox.container.background,
 })
+
+local datetooltip = awful.tooltip({})
+datetooltip.shape = helpers.ui.prrect(beautiful.border_radius, false, true, true, false)
+datetooltip.preferred_alignments = { 'middle', 'front', 'back' }
+datetooltip.mode = 'outside'
+datetooltip:add_to_object(clock)
+datetooltip.text = os.date('%d.%m.%y') -- just don't stay up long enough for that to change
 
 -- Tasklist
 local tasklist_buttons = gears.table.join(
@@ -135,13 +139,61 @@ notifs:buttons(gears.table.join(awful.button({}, 1, function()
     notifs_toggle()
 end)))
 
+-- Systray Widget -------------------------------------------------------------
+
+local mysystray = wibox.widget.systray()
+mysystray.base_size = beautiful.systray_icon_size
+
+local sys_button = wibox.widget({
+    forced_width = 10,
+    forced_height = 12,
+    bg = beautiful.xforeground,
+    --shape = helpers.powerline(10, 12),
+    widget = wibox.container.background,
+})
+
+local sys_popup = awful.popup({
+    widget = wibox.widget({
+        { mysystray, margins = 10, widget = wibox.container.margin },
+        forced_height = 65,
+        bg = beautiful.darker_bg,
+        widget = wibox.container.background,
+    }),
+    ontop = true,
+    visible = false,
+    placement = function(c)
+        awful.placement.bottom_left(c, {
+            margins = { left = beautiful.wibar_width + 10, bottom = 20 },
+        })
+    end,
+    shape = gears.shape.rounded_rect,
+})
+
+sys_button:buttons(gears.table.join(awful.button({}, 1, function()
+    if sys_popup.visible then
+        sys_popup.visible = false
+    else
+        sys_popup.visible = true
+    end
+end)))
+
+sys_button:connect_signal('mouse::enter', function()
+    sys_button.bg = beautiful.xcolor8
+end)
+
+sys_button:connect_signal('mouse::leave', function()
+    sys_button.bg = beautiful.xforeground
+end)
+
 -- Create the Wibar -----------------------------------------------------------
 --
 local wrap_widget = function(w)
     return {
         w,
-        left = dpi(3),
-        right = dpi(3),
+        top = dpi(5),
+        left = dpi(5),
+        bottom = dpi(5),
+        right = dpi(5),
         widget = wibox.container.margin,
     }
 end
@@ -149,42 +201,10 @@ end
 local wrap_widget2 = function(w)
     return {
         w,
-        left = dpi(2),
-        right = dpi(2),
+        left = dpi(20),
+        right = dpi(20),
         widget = wibox.container.margin,
     }
-end
-
-local function boxed_widget(widget)
-    local boxed = wibox.widget({
-        {
-            widget,
-            top = dpi(8),
-            bottom = dpi(5),
-            widget = wibox.container.margin,
-        },
-        bg = beautiful.xcolor0,
-        --shape = helpers.rrect(dpi(4)),
-        widget = wibox.container.background,
-    })
-
-    return boxed
-end
-
-local function boxed_widget2(widget)
-    local boxed = wibox.widget({
-        {
-            widget,
-            top = dpi(5),
-            bottom = dpi(5),
-            widget = wibox.container.margin,
-        },
-        bg = beautiful.lighter_bg,
-        --shape = helpers.rrect(dpi(4)),
-        widget = wibox.container.background,
-    })
-
-    return boxed
 end
 
 return function(s)
@@ -394,27 +414,42 @@ return function(s)
             expand = 'none',
             {
                 layout = wibox.layout.fixed.vertical,
+                {
+                    awesome_icon,
+                    top = dpi(10),
+                    right = dpi(6),
+                    left = dpi(6),
+                    bottom = dpi(6),
+                    widget = wibox.container.margin,
+                },
                 wrap_widget({
                     s.mytasklist,
-                    left = dpi(2),
-                    right = dpi(2),
+                    left = dpi(5),
+                    right = dpi(5),
                     widget = wibox.container.margin,
                 }),
             },
             tag_list(s),
             {
-                {
-                    {
-                        clock,
-                        layoutbox,
-                        layout = wibox.layout.fixed.vertical,
-                    },
+                wrap_widget(clock),
+                --volume
+                --brightness
+                --battery
+                wrap_widget(awful.widget.only_on_screen({
+                    sys_button,
+                    halign = 'center',
+                    valign = 'center',
+                    widget = wibox.container.place,
+                }, s)),
+                wrap_widget({
+                    s.mylayoutbox,
+                    top = dpi(5),
                     bottom = dpi(10),
+                    right = dpi(8),
+                    left = dpi(8),
                     widget = wibox.container.margin,
-                },
-                left = dpi(5),
-                right = dpi(5),
-                widget = wibox.container.margin,
+                }),
+                layout = wibox.layout.fixed.vertical,
             },
         },
         widget = wibox.container.background,
