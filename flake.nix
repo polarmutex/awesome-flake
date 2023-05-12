@@ -2,18 +2,18 @@
   description = "My awesomeWM configuration";
 
   inputs = {
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     polar-nur.url = "github:polarmutex/nur";
-    bling = { url = "github:BlingCorp/bling"; flake = false; };
-
+    bling = {
+      url = "github:BlingCorp/bling";
+      flake = false;
+    };
   };
-  outputs = { self, ... }@inputs:
+  outputs = {self, ...} @ inputs:
     with inputs;
-    {
-      overlays.default = final: prev:
-        let
+      {
+        overlays.default = final: prev: let
           pkgs = import nixpkgs {
             system = prev.system;
             allowBroken = false;
@@ -22,8 +22,7 @@
               polar-nur.overlays.default
             ];
           };
-        in
-        rec  {
+        in rec {
           awesome-config-polar = pkgs.stdenv.mkDerivation rec {
             pname = "awesome-config-polar";
             version = "dev";
@@ -32,8 +31,7 @@
 
             dontBuild = true;
 
-            nativeBuildInputs =
-              [ ];
+            nativeBuildInputs = [];
 
             installPhase = ''
               cp -r . $out
@@ -45,48 +43,44 @@
               homepage = "https://github.com/polarmutex/awesome-flake";
               description = "Polarmutex's awesomeWM configuration";
               license = licenses.mit;
-              maintainers = [ maintainers.polarmutex ];
+              maintainers = [maintainers.polarmutex];
             };
           };
         };
-    } //
-    flake-utils.lib.eachSystem [
-      "x86_64-linux"
-      "aarch64-linux"
-    ]
-      (system:
-        let
-          pkgs = import nixpkgs {
-            overlays = [
-              polar-nur.overlays.default
-              self.overlays.default
-            ];
-            inherit system;
-          };
+      }
+      // flake-utils.lib.eachSystem [
+        "x86_64-linux"
+        "aarch64-linux"
+      ]
+      (system: let
+        pkgs = import nixpkgs {
+          overlays = [
+            polar-nur.overlays.default
+            self.overlays.default
+          ];
+          inherit system;
+        };
 
-          awesome-test = pkgs.writeShellScriptBin "awesome-test"
-            ''
-              #!/usr/bin/env bash
-              set -eu -o pipefail
-              export AWESOME_THEME=$out/theme.lua
-              Xephyr :5 -screen 2560x1400 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c ./dotfiles/rc.lua --search $out
-            '';
+        awesome-test =
+          pkgs.writeShellScriptBin "awesome-test"
+          ''
+            #!/usr/bin/env bash
+            set -eu -o pipefail
+            export AWESOME_THEME=$out/theme.lua
+            Xephyr :5 -screen 2560x1400 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c ./dotfiles/rc.lua --search $out
+          '';
+      in rec {
+        packages = with pkgs; {
+          inherit awesome-config-polar;
+          default = awesome-config-polar;
+        };
 
-        in
-        rec {
-          packages = with pkgs; {
-            inherit awesome-config-polar;
-            default = awesome-config-polar;
-          };
+        checks = {};
 
-          checks = { };
-
-
-          devShells.default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              awesome-test
-            ];
-          };
-
-        });
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            awesome-test
+          ];
+        };
+      });
 }

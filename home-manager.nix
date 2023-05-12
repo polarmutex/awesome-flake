@@ -1,45 +1,37 @@
-{ config
-, pkgs
-, lib
-, inputs
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
 }:
-with lib;
-let
+with lib; let
   dot = path: "${config.home.homeDirectory}/repos/personal/awesome-flake/${path}";
 
-  link = path:
-    let
-      fullpath = dot path;
-    in
+  link = path: let
+    fullpath = dot path;
+  in
     config.lib.file.mkOutOfStoreSymlink fullpath;
 
-  link-one = from: to: path:
-    let
-      paths = builtins.attrNames { "${path}" = "directory"; };
-      mkPath = path:
-        let
-          orig = "${from}/${path}";
-        in
-        {
-          name = "${to}/${path}";
-          value = {
-            source = link orig;
-          };
-        };
-    in
+  link-one = from: to: path: let
+    paths = builtins.attrNames {"${path}" = "directory";};
+    mkPath = path: let
+      orig = "${from}/${path}";
+    in {
+      name = "${to}/${path}";
+      value = {
+        source = link orig;
+      };
+    };
+  in
     builtins.listToAttrs (
       map mkPath paths
     );
 
   cfg = config.polar.programs.awesome;
-in
-{
-
+in {
   options = {
-
     polar.programs.awesome = {
-
       enable = mkOption {
         type = types.bool;
         default = true;
@@ -49,7 +41,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     home.packages = with pkgs; [
       awesome-git
     ];
@@ -57,7 +48,5 @@ in
     # old way
     xdg.configFile = link-one "config" "." "awesome";
     home.file."repos/personal/awesome-flake/config/awesome/modules/bling".source = inputs.bling;
-
   };
-
 }
