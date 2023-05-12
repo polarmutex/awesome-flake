@@ -3,27 +3,62 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    polar-nur.url = "github:polarmutex/nur";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    awesome-git-src = {
+      url = "github:awesomeWM/awesome";
+      flake = false;
+    };
     bling = {
       url = "github:BlingCorp/bling";
       flake = false;
     };
   };
-  outputs = {self, ...} @ inputs:
-    with inputs;
-      {
-        overlays.default = final: prev: let
-          pkgs = import nixpkgs {
-            system = prev.system;
-            allowBroken = false;
-            allowUnfree = false;
-            overlays = [
-              polar-nur.overlays.default
-            ];
-          };
-        in rec {
-          awesome-config-polar = pkgs.stdenv.mkDerivation rec {
+  outputs = inputs @ {
+    flake-parts,
+    self,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: {
+        # Per-system attributes can be defined here. The self' and inputs'
+        # module parameters provide easy access to attributes of the same
+        # system.
+
+        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
+        packages = {
+          default = pkgs.hello;
+          awesome-git =
+            (pkgs.awesome.overrideAttrs (_: let
+              extraGIPackages = with pkgs; [networkmanager upower playerctl];
+            in {
+              version = "master";
+              src = inputs.awesome-git-src;
+              patches = [];
+
+              postPatch = ''
+                patchShebangs tests/examples/_postprocess.lua
+                patchShebangs tests/examples/_postprocess_cleanup.lua
+              '';
+
+              GI_TYPELIB_PATH = let
+                mkTypeLibPath = pkg: "${pkg}/lib/girepository-1.0";
+                extraGITypeLibPaths = pkgs.lib.forEach extraGIPackages mkTypeLibPath;
+              in
+                pkgs.lib.concatStringsSep ":" (extraGITypeLibPaths ++ [(mkTypeLibPath pkgs.pango.out)]);
+            }))
+            .override {
+              gtk3Support = true;
+            };
+
+          awesome-config-polar = pkgs.stdenv.mkDerivation {
             pname = "awesome-config-polar";
             version = "dev";
 
@@ -47,40 +82,33 @@
             };
           };
         };
-      }
-      // flake-utils.lib.eachSystem [
-        "x86_64-linux"
-        "aarch64-linux"
-      ]
-      (system: let
-        pkgs = import nixpkgs {
-          overlays = [
-            polar-nur.overlays.default
-            self.overlays.default
-          ];
-          inherit system;
-        };
 
-        awesome-test =
-          pkgs.writeShellScriptBin "awesome-test"
-          ''
-            #!/usr/bin/env bash
-            set -eu -o pipefail
-            export AWESOME_THEME=$out/theme.lua
-            Xephyr :5 -screen 2560x1400 & sleep 1 ; DISPLAY=:5 ${pkgs.awesome-git}/bin/awesome -c ./dotfiles/rc.lua --search $out
-          '';
-      in rec {
-        packages = with pkgs; {
-          inherit awesome-config-polar;
-          default = awesome-config-polar;
+        devShells = {
+          #default = shell {inherit self pkgs;};
+          default = let
+            awesome-test =
+              pkgs.writeShellScriptBin "awesome-test"
+              ''
+                #!/usr/bin/env bash
+                set -eu -o pipefail
+                export AWESOME_THEME=$out/theme.lua
+                Xephyr :5 -screen 2560x1400 & sleep 1 ; DISPLAY=:5 ${self'.packages.awesome-git}/bin/awesome -c ${self'.packages.awesome-config-polar}/rc.lua --search $out
+              '';
+          in
+            pkgs.mkShell {
+              name = "dev-shell";
+              packages = with pkgs; [
+                awesome-test
+                statix
+              ];
+              #inherit (self.checks.${system}.pre-commit-check) shellHook;
+            };
         };
-
-        checks = {};
-
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            awesome-test
-          ];
+      };
+      flake = {
+        overlays.default = _final: _prev: {
+          awesome-git = self.packages.awesome-git;
         };
-      });
+      };
+    };
 }
