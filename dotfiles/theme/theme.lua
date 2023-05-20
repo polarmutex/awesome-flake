@@ -7,6 +7,7 @@ local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 local helpers = require('helpers')
 local icons = require('icons')
+local wibox = require('wibox')
 
 -- Aesthetic Night
 
@@ -111,9 +112,16 @@ theme.titlebar_bg = theme.xbackground
 theme.titlebar_fg = theme.xforeground
 
 --- Wibar
+theme.wibar_position = 'left'
+theme.wibar_layout = wibox.layout.align.vertical
+theme.wibar_width = dpi(50)
+theme.wibar_stretch = true
+theme.wibar_expand = 'none'
 theme.wibar_bg = '#0B161A'
-theme.wibar_height = dpi(40)
-theme.wibar_width = dpi(40)
+theme.wibar_opacity = 1
+theme.wibar_border_width = dpi(9)
+--theme.wibar_border_color = COLORS.transparent
+theme.wibar_ontop = false
 
 --- Music
 theme.music_bg = theme.xbackground

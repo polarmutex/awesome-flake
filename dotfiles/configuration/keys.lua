@@ -227,6 +227,10 @@ awful.keyboard.append_global_keybindings({
             awful.tag.incmwfact(-0.05)
         end,
     }),
+    --awful.key({ modkey, "Mod1"    }, "Right",     function () awful.tag.incmwfact( 0.01)    end),
+    --awful.key({ modkey, "Mod1"    }, "Left",     function () awful.tag.incmwfact(-0.01)    end),
+    --aawful.key({ modkey, "Mod1"    }, "Down",     function () awful.client.incwfact( 0.01)    end),
+    --awful.key({ modkey, "Mod1"    }, "Up",     function () awful.client.incwfact(-0.01)    end),
     awful.key({
         modifiers = { mod.super, mod.shift },
         key = 'h',
