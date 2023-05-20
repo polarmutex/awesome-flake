@@ -114,7 +114,7 @@ theme.titlebar_fg = theme.xforeground
 --- Wibar
 theme.wibar_position = 'left'
 theme.wibar_layout = wibox.layout.align.vertical
-theme.wibar_width = dpi(50)
+theme.wibar_width = dpi(40)
 theme.wibar_stretch = true
 theme.wibar_expand = 'none'
 theme.wibar_bg = '#0B161A'
