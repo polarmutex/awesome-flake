@@ -250,8 +250,8 @@ return function(s)
             {
                 widget = wibox.container.place,
                 wibox.widget({
-                    format = '%H',
-                    font = 'Terminus Bold 16',
+                    format = '%I',
+                    font = 'MonoLisa Custom 10',
                     widget = wibox.widget.textclock,
                 }),
             },
@@ -261,7 +261,7 @@ return function(s)
                 {
                     wibox.widget({
                         markup = ':',
-                        font = 'Terminus Bold 16',
+                        font = 'MonoLisa Custom 10',
                         widget = wibox.widget.textbox,
                     }),
                     direction = 'west',
@@ -272,7 +272,7 @@ return function(s)
                 widget = wibox.container.place,
                 wibox.widget({
                     format = '%M',
-                    font = 'Terminus Bold 16',
+                    font = 'MonoLisa Custom 10',
                     widget = wibox.widget.textclock,
                 }),
             },
