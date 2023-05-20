@@ -300,6 +300,53 @@ return function(s)
         }
     end
 
+    local systray = widgets.toggable_systray({
+        toggle_side = 'right',
+        text_icon_show = ' 󰏝 ',
+        text_icon_hide = ' 󰏝 ',
+        no_tooltip = true,
+        hidden_at_start = false,
+        margin_top = dpi(9),
+        margin_bottom = dpi(9),
+        create_systray_box = function(systray_container)
+            local toggable_content = {
+                layout = wibox.layout.fixed.horizontal,
+                spacing = dpi(10),
+                --{
+                --    widgets:load('volume_widget'),
+                --    direction = 'east',
+                --    widget = wibox.container.rotate,
+                --},
+                --{
+                --    widgets:load('battery_widget'),
+                --    direction = 'east',
+                --    widget = wibox.container.rotate,
+                --},
+            }
+            if not systray_displayed then
+                systray_displayed = true
+                table.insert(toggable_content, systray_container)
+            end
+            return wibox.widget({
+                wrap_widget({
+                    toggable_content,
+                    right = dpi(10),
+                    left = dpi(10),
+                    widget = wibox.container.margin,
+                }, COLORS.background_2),
+                top = dpi(5),
+                bottom = dpi(5),
+                widget = wibox.container.margin,
+            })
+        end,
+    })
+
+    local toggable_systray_container = {
+        systray,
+        direction = 'west',
+        widget = wibox.container.rotate,
+    }
+
     -- Create the wibox
     s.mywibar = awful.wibar({
         -- position = beautiful.wibar_position,
@@ -355,6 +402,10 @@ return function(s)
                     widget = wibox.container.place,
                     create_clock_widget(),
                 },
+            },
+            {
+                layout = wibox.layout.fixed.vertical,
+                toggable_systray_container,
             },
         },
         widget = wibox.container.background,
