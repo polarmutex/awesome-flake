@@ -348,13 +348,75 @@ return function(s)
     }
 
     -- Create the wibox
-    s.mywibar = awful.wibar({
+    s.mywibox = wibox({
         -- position = beautiful.wibar_position,
         screen = s,
-        position = 'left',
+        type = 'dock',
+        ontop = true,
+        x = 0,
+        y = 0,
+        width = beautiful.wibar_width,
+        height = screen_height,
+        visible = true,
     })
 
-    s.mywibar:setup({
+    s.mywibox:struts({ left = beautiful.wibar_width })
+
+    -- Remove wibar on full screen
+    local function remove_wibar(c)
+        if c.fullscreen or c.maximized then
+            c.screen.mywibox.visible = false
+        else
+            c.screen.mywibox.visible = true
+        end
+    end
+
+    -- Remove wibar on full screen
+    local function add_wibar(c)
+        if c.fullscreen or c.maximized then
+            c.screen.mywibox.visible = true
+        end
+    end
+
+    client.connect_signal('property::fullscreen', remove_wibar)
+
+    client.connect_signal('request::unmanage', add_wibar)
+
+    -- Create a tasklist widget
+    s.mytasklist = awful.widget.tasklist({
+        screen = s,
+        filter = awful.widget.tasklist.filter.currenttags,
+        buttons = tasklist_buttons,
+        bg = beautiful.wibar_bg,
+        style = {
+            bg = beautiful.xcolor0,
+            --shape = helpers.rrect(beautiful.border_radius),
+        },
+        layout = { spacing = dpi(10), layout = wibox.layout.fixed.vertical },
+        widget_template = {
+            {
+                awful.widget.clienticon,
+                margins = dpi(6),
+                layout = wibox.container.margin,
+            },
+            id = 'background_role',
+            widget = wibox.container.background,
+            create_callback = function(self, c, index, clients)
+                self:connect_signal('mouse::enter', function()
+                    self.bg_temp = self.bg
+                    self.bg = beautiful.xcolor0
+                    awesome.emit_signal('bling::task_preview::visibility', s, true, c)
+                end)
+                self:connect_signal('mouse::leave', function()
+                    self.bg = self.bg_temp
+                    awesome.emit_signal('bling::task_preview::visibility', s, false, c)
+                end)
+            end,
+        },
+    })
+
+    -- Add widgets to the wibox
+    s.mywibox.widget = wibox.widget({
         {
             layout = wibox.layout.align.vertical,
             expand = 'none',
@@ -410,117 +472,8 @@ return function(s)
         },
         widget = wibox.container.background,
         bg = beautiful.wibar_bg,
-        --shape_border_color = COLORS.background,
-        --shape_border_width = 1,
         shape = function(cr, width, height)
             return gears.shape.rounded_rect(cr, width, height, dpi(15))
         end,
     })
-
-    --s.mywibox:struts({ left = beautiful.wibar_width })
-
-    -- Remove wibar on full screen
-    --local function remove_wibar(c)
-    --    if c.fullscreen or c.maximized then
-    --        c.screen.mywibox.visible = false
-    --    else
-    --        c.screen.mywibox.visible = true
-    --    end
-    --end
-
-    -- Remove wibar on full screen
-    --local function add_wibar(c)
-    --    if c.fullscreen or c.maximized then
-    --        c.screen.mywibox.visible = true
-    --    end
-    --end
-
-    --client.connect_signal('property::fullscreen', remove_wibar)
-
-    --client.connect_signal('request::unmanage', add_wibar)
-
-    -- Create the taglist widget
-    --s.mytaglist = require('ui.widgets.pacman_taglist')(s)
-
-    -- Create a tasklist widget
-    --s.mytasklist = awful.widget.tasklist({
-    --    screen = s,
-    --    filter = awful.widget.tasklist.filter.currenttags,
-    --    buttons = tasklist_buttons,
-    --    bg = beautiful.wibar_bg,
-    --    style = {
-    --        bg = beautiful.xcolor0,
-    --        --shape = helpers.rrect(beautiful.border_radius),
-    --    },
-    --    layout = { spacing = dpi(10), layout = wibox.layout.fixed.vertical },
-    --    widget_template = {
-    --        {
-    --            awful.widget.clienticon,
-    --            margins = dpi(6),
-    --            layout = wibox.container.margin,
-    --        },
-    --        id = 'background_role',
-    --        widget = wibox.container.background,
-    --        create_callback = function(self, c, index, clients)
-    --            self:connect_signal('mouse::enter', function()
-    --                self.bg_temp = self.bg
-    --                self.bg = beautiful.xcolor0
-    --                awesome.emit_signal('bling::task_preview::visibility', s, true, c)
-    --            end)
-    --            self:connect_signal('mouse::leave', function()
-    --                self.bg = self.bg_temp
-    --                awesome.emit_signal('bling::task_preview::visibility', s, false, c)
-    --            end)
-    --        end,
-    --    },
-    --})
-
-    -- Add widgets to the wibox
-    --s.mywibox.widget = wibox.widget({
-    --    {
-    --        layout = wibox.layout.align.vertical,
-    --        expand = 'none',
-    --        {
-    --            layout = wibox.layout.fixed.vertical,
-    --            {
-    --                awesome_icon,
-    --                top = dpi(10),
-    --                right = dpi(6),
-    --                left = dpi(6),
-    --                bottom = dpi(6),
-    --                widget = wibox.container.margin,
-    --            },
-    --            wrap_widget({
-    --                s.mytasklist,
-    --                left = dpi(5),
-    --                right = dpi(5),
-    --                widget = wibox.container.margin,
-    --            }),
-    --        },
-    --        tag_list(s),
-    --        {
-    --            wrap_widget(clock),
-    --            --volume
-    --            --brightness
-    --            --battery
-    --            wrap_widget(awful.widget.only_on_screen({
-    --                sys_button,
-    --                halign = 'center',
-    --                valign = 'center',
-    --                widget = wibox.container.place,
-    --            }, s)),
-    --            wrap_widget({
-    --                s.mylayoutbox,
-    --                top = dpi(5),
-    --                bottom = dpi(10),
-    --                right = dpi(8),
-    --                left = dpi(8),
-    --                widget = wibox.container.margin,
-    --            }),
-    --            layout = wibox.layout.fixed.vertical,
-    --        },
-    --    },
-    --    widget = wibox.container.background,
-    --    bg = beautiful.wibar_bg,
-    --})
 end
