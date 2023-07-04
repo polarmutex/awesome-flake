@@ -56,6 +56,7 @@
             }))
             .override {
               gtk3Support = true;
+              lua = pkgs.luajit;
             };
 
           awesome-config-polar = pkgs.stdenv.mkDerivation {
