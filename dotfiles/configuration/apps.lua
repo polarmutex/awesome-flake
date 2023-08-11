@@ -1,8 +1,8 @@
 local config_dir = require('gears').filesystem.get_configuration_dir()
 local M = {
     default = {
-        --terminal = 'wezterm start --always-new-process', --os.getenv('TERMINAL') or 'st',
-        terminal = 'kitty', --os.getenv('TERMINAL') or 'st',
+        terminal = 'wezterm start --always-new-process', --os.getenv('TERMINAL') or 'st',
+        --terminal = 'kitty', --os.getenv('TERMINAL') or 'st',
         --music_player = 'wezterm start --class music ncmpcpp',
         --text_editor = 'wezterm start nvim',
         code_editor = 'codium',
