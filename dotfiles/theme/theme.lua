@@ -60,7 +60,7 @@ theme.xcolor15 = '#c0caf5'
 -- Fonts
 
 --- Ui Fonts
-theme.font_name = 'MonoLisa Custom '
+theme.font_name = 'MonoLisa '
 theme.font = theme.font_name .. 'Medium 10'
 
 --- Icon Fonts

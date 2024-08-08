@@ -1,5 +1,5 @@
 configuration {
-    font:                           "MonoLisa Custom 11";
+    font:                           "MonoLisa 11";
     show-icons:                     true;
     icon-theme:                     "Crule";
     display-drun:                   "";
